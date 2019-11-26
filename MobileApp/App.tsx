@@ -8,7 +8,7 @@
  * @format
  */
 
-import React from 'react';
+import React, {useState} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -16,6 +16,7 @@ import {
   View,
   Text,
   StatusBar,
+  TouchableOpacity,
 } from 'react-native';
 
 import {
@@ -26,8 +27,15 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
+import {getPlural, usePrevious} from '../monolith-shared/lib';
+
 const App = () => {
-  const usingHermes = typeof HermesInternal === 'object' && HermesInternal !== null;
+  const [count, setCount] = useState(0);
+  const previous = usePrevious(count);
+
+  const usingHermes =
+    typeof HermesInternal === 'object' && HermesInternal !== null;
+
   return (
     <>
       <StatusBar barStyle="dark-content" />
@@ -42,11 +50,18 @@ const App = () => {
             </View>
           )}
           <View style={styles.body}>
+            <View>
+              <Text>Count: {count}</Text>
+              <Text>Previous: {previous}</Text>
+              <TouchableOpacity onPress={() => setCount(count => count + 1)}>
+                <Text>Increase</Text>
+              </TouchableOpacity>
+            </View>
             <View style={styles.sectionContainer}>
               <Text style={styles.sectionTitle}>Step One</Text>
               <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-                screen and then come back to see your edits.
+                Edit <Text style={styles.highlight}>App.tsx</Text> to change
+                this screen and then come back to see your edits.
               </Text>
             </View>
             <View style={styles.sectionContainer}>
