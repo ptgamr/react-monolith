@@ -42,7 +42,7 @@ I tried and it works with symlink out of the box. However:
 * I still prefer Metro because it is shipped with ReactNative
   
 
-### Final solution
+## Final solution
 
 Combination of `yarn link` & tweaking `metro.config.js`
 
@@ -71,3 +71,23 @@ const App = () => {
 }
 
 ```
+## CAUTION!
+
+If the `linked package` shared any dependencies with the host project, there might be collision of multiple version of same dependency, and funny things could happen.
+
+For example:
+
+```
+MobileApp
+  react@16.9.1
+  pluralize@7.0.0
+
+monolith-shared
+  react@16.12.0
+  pluralize@8.0.0
+```
+
+If that is the case, you might want to add `react` & `pluralize` to the `blacklistRE` inside **metro.config.js**, so that it will always
+resolve to the version installed in the host project.
+
+Best is to keep your version synchronized across projects.
