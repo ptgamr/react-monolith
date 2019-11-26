@@ -27,7 +27,7 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-import {getPlural, usePrevious} from '../monolith-shared/lib';
+import {getPlural, usePrevious} from '@monolith/shared/lib';
 
 const App = () => {
   const [count, setCount] = useState(0);

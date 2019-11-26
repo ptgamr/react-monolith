@@ -1,10 +1,15 @@
 const path = require('path');
 const blacklist = require('metro-config/src/defaults/blacklist');
 
-const modules = ['monolith-shared'];
-const blacklisted = arrayFlatMap(modules, module => [
-  new RegExp(`${module}/node_modules/react-native/.*`),
-  new RegExp(`${module}/node_modules/react/.*`),
+const linkedPackages = ['@monolith/shared'];
+const getPackagePath = packageName => path.dirname(require.resolve(`${packageName}/package.json`));
+
+// We don't want these paths to enter Module Resolution tree
+// Otherwise, ReactNative will complain about multiple React version
+// if there is another version of React specified in any of the linkedPackages
+const blacklisted = arrayFlatMap(linkedPackages, packageName => [
+  new RegExp(`${getPackagePath(packageName)}/node_modules/react-native/.*`),
+  new RegExp(`${getPackagePath(packageName)}/node_modules/react/.*`),
 ]);
 
 module.exports = {
@@ -26,11 +31,10 @@ module.exports = {
       'react-native': path.resolve(__dirname, 'node_modules/react-native'),
       '@babel/runtime': path.resolve(__dirname, 'node_modules/@babel/runtime'),
     },
-    // these path won't enter Module Resolution tree
     blacklistRE: blacklist(blacklisted),
   },
   // this teaches Metro to look outside of the MobileApp tree
-  watchFolders: modules.map(moduleName => path.join(__dirname, `../${moduleName}`))
+  watchFolders: linkedPackages.map(getPackagePath)
 };
 
 // Backport of Array.flatMap.
