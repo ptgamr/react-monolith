@@ -1,0 +1,22 @@
+{
+  "name": "@monolith/shared",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/pluralize": "0.0.29",
+    "@types/react": "^16.9.13",
+    "typescript": "^3.7.2"
+  },
+  "dependencies": {
+    "pluralize": "^8.0.0",
+    "react": "^16.12.0"
+  }
+}
